@@ -107,16 +107,41 @@
         ctx.webkitImageSmoothingEnabled = false;
         ctx.msImageSmoothingEnabled = false;
         ctx.imageSmoothingEnabled = false;
-        const unitSize = inputUnitSize();
+        const unitSize = inputUnitSize(),
+              items = getItems();
         inputAAA().replace(/^@AAA:.*?\n/,'').split(/\n?@@@\n?/).forEach(v=>{
             ctx.fillStyle = inputColor.val();
             ctx.fillRect(0, 0, cv.get(0).width, cv.get(0).height);
             v.split('\n').forEach((line,i)=>{
+                let ar = [line];
+                for(const k in items) {
+                    let ar2 = [];
+                    ar.forEach(v=>{
+                        if(typeof v !== "string") return ar2.push(v);
+                        v.split(k).forEach((v,i)=>{
+                            if(!i) return ar2.push(v);
+                            ar2.push(items[k]);
+                            ar2.push(v);
+                        });
+                    });
+                    ar = ar2;
+                }
                 ctx.fillStyle = "black";
                 ctx.font = unitSize + "px 'ＭＳ ゴシック'";
                 ctx.textAlign = "left";
                 ctx.textBaseline = "top";
-                ctx.fillText(line, 0, unitSize * i);
+                const nowY = unitSize * i;
+                let nowX = 0;
+                ar.forEach(v=>{
+                    if(typeof v === "string") {
+                        ctx.fillText(v, nowX, nowY);
+                        nowX += ctx.measureText(v).width;
+                    }
+                    else {
+                        ctx.drawImage(v, nowX, nowY, unitSize, unitSize);
+                        nowX += unitSize;
+                    }
+                });
             });
             encoder.addFrame(ctx);
         });
