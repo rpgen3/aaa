@@ -12,6 +12,7 @@
         placeholder: "input area of AAA",
         save: "inputAAA",
         trim: false,
+        hankaku: false,
     });
     var inputDelay = rpgen3.addInputNumber(h,{
         title: "フレーム毎ミリ秒",
@@ -34,15 +35,17 @@
         save: "unit",
         value: 16,
     });
-    var inputColor = (()=>{
-        var s = "input_color",
-            e = $("<input>",{type:"color"}).appendTo($("<div>",{text:"透明色の設定:"}).appendTo(h))
-        .on("change",()=>rpgen3.save(s,e.val())).val("#FF0000");
+    function addInputColor(title,value){
+        var s = title,
+            e = $("<input>",{type:"color"}).appendTo($("<div>",{text:title + ":"}).appendTo(h))
+        .on("change",()=>rpgen3.save(s,e.val())).val(value);
         rpgen3.load(s,v=>{
             e.val(v);
         });
-        return e;
-    })();
+        return () => e.val();
+    }
+    const inputFontColor = addInputColor("文字の色","#0000FF");
+    const inputBackColor = addInputColor("透明色の設定","#FF0000");
     $("<button>").appendTo(h).text("ユーザー定義絵文字の追加").on("click",loadImg);
     var itemList = $("<div>").appendTo(h);
     $("<button>").appendTo(h).text("変換").on("click",makeGIF);
@@ -60,7 +63,7 @@
     function addItem(img, title){
         const now = String(new Date),
               item = $("<div>").prependTo(itemList).addClass("item").attr({k: now}),
-              name = $("<span>").appendTo(item).text(' ' + title.slice(0,20) + " : "),
+              name = $("<span>").appendTo(item).text(' ' + title.slice(0,20) + "："),
               height = name.height();
         archive[now] = img;
         $("<img>",{src:img.src}).prependTo(item).css({
@@ -96,13 +99,14 @@
         encoder.setRepeat(0); //繰り返し回数 0=無限ループ
         encoder.setDelay(inputDelay()); //1コマあたりの待機秒数（ミリ秒）
         encoder.setQuality(10); // 色量子化の品質を設定
-        encoder.setTransparent(parseInt(inputColor.val().slice(1),16)); // 最後に追加されたフレームと後続のフレームの透明色を設定
+        encoder.setTransparent(parseInt(inputBackColor().slice(1),16)); // 最後に追加されたフレームと後続のフレームの透明色を設定
         encoder.start()
         var cv = $("<canvas>").attr({
             width: inputW(),
             height: inputH()
         });
         var ctx = cv.get(0).getContext('2d');
+        ctx.globalAlpha = 1.0;
         // ドットを滑らかにしないおまじない
         ctx.mozImageSmoothingEnabled = false;
         ctx.webkitImageSmoothingEnabled = false;
@@ -111,7 +115,7 @@
         const unitSize = inputUnitSize(),
               items = getItems();
         inputAAA().replace(/^@AAA:.*?\n/,'').split(/\n?@@@\n?/).forEach(v=>{
-            ctx.fillStyle = inputColor.val();
+            ctx.fillStyle = inputBackColor();
             ctx.fillRect(0, 0, cv.get(0).width, cv.get(0).height);
             v.split('\n').forEach((line,i)=>{
                 let ar = [line];
@@ -127,7 +131,7 @@
                     });
                     ar = ar2;
                 }
-                ctx.fillStyle = "black";
+                ctx.fillStyle = inputFontColor();
                 ctx.font = unitSize + "px 'ＭＳ ゴシック'";
                 ctx.textAlign = "left";
                 ctx.textBaseline = "top";
