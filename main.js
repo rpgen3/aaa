@@ -11,6 +11,7 @@
         textarea: true,
         placeholder: "input area of AAA",
         save: "inputAAA",
+        trim: false,
     });
     var inputDelay = rpgen3.addInputNumber(h,{
         title: "フレーム毎ミリ秒",
