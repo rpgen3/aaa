@@ -13,35 +13,36 @@
         save: "inputAAA",
     });
     var inputDelay = rpgen3.addInputNumber(h,{
+        title: "フレーム毎ミリ秒",
         placeholder: "delay[ms]",
         save: "inputDelay",
         value: 30,
     });
     var inputW = rpgen3.addInputNumber(h,{
-        title: "width",
+        title: "幅",
         save: "width",
         value: 320,
     });
     var inputH = rpgen3.addInputNumber(h,{
-        title: "height",
+        title: "高さ",
         save: "height",
         value: 160,
     });
     var inputUnitSize = rpgen3.addInputNumber(h,{
-        title: "unit",
+        title: "文字サイズ",
         save: "unit",
         value: 16,
     });
     var inputColor = (()=>{
         var s = "input_color",
             e = $("<input>",{type:"color"}).appendTo($("<div>",{text:"透明色の設定:"}).appendTo(h))
-        .on("change",()=>rpgen3.save(s,e.val()));
+        .on("change",()=>rpgen3.save(s,e.val())).val("#FF0000");
         rpgen3.load(s,v=>{
             e.val(v);
         });
         return e;
     })();
-    $("<button>").appendTo(h).text("ユーザー定義絵文字の追加").on("click",()=>{});
+    $("<button>").appendTo(h).text("ユーザー定義絵文字の追加").on("click",loadImg);
     var itemList = $("<div>").appendTo(h);
     $("<button>").appendTo(h).text("変換").on("click",makeGIF);
     const result = $("<div>").appendTo(h);
