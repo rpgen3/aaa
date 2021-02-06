@@ -15,6 +15,7 @@
     var inputDelay = rpgen3.addInputNumber(h,{
         placeholder: "delay[ms]",
         save: "inputDelay",
+        value: 30,
     });
     var inputW = rpgen3.addInputNumber(h,{
         title: "width",
@@ -109,7 +110,7 @@ background-color:rgba(0, 0, 255, 1.0);
         ctx.msImageSmoothingEnabled = false;
         ctx.imageSmoothingEnabled = false;
         const unitSize = inputUnitSize();
-        inputAAA().split("\n@@@\n").forEach(v=>{
+        inputAAA().split(/\n\s*?@@@\s*?\n/).forEach(v=>{
             ctx.fillStyle = inputColor.val();
             ctx.fillRect(0, 0, cv.get(0).width, cv.get(0).height);
             v.split('\n').forEach((line,i)=>{
