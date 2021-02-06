@@ -46,11 +46,6 @@
     var itemList = $("<div>").appendTo(h);
     $("<button>").appendTo(h).text("変換").on("click",makeGIF);
     const result = $("<div>").appendTo(h);
-    $('<style>').prependTo(h).html(`
-.item:hover {
-background-color:rgba(0, 0, 255, 1.0);
-}
-`);
     const archive = {};
     function getItems(){
         const obj = {};
@@ -64,7 +59,7 @@ background-color:rgba(0, 0, 255, 1.0);
     function addItem(img, title){
         const now = String(new Date),
               item = $("<div>").prependTo(itemList).addClass("item").attr({k: now}),
-              name = $("<span>").appendTo(item).text(' ' + title.slice(0,20)),
+              name = $("<span>").appendTo(item).text(' ' + title.slice(0,20) + " : "),
               height = name.height();
         archive[now] = img;
         $("<img>",{src:img.src}).prependTo(item).css({
@@ -72,7 +67,9 @@ background-color:rgba(0, 0, 255, 1.0);
             height: height
         });
         $("<input>").appendTo(item).attr({
-            placeholder: "置換する文字列",
+            placeholder: "置換文字列",
+        }).css({
+            width: "5em"
         }).on("change", function(){
             $(this).val($(this).val().trim());
         });
