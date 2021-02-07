@@ -13,6 +13,7 @@
         save: "inputAAA",
         trim: false,
         hankaku: false,
+        class: "aa"
     });
     const inputDelay = rpgen3.addInputNumber(h,{
         title: "フレーム毎ミリ秒",
