@@ -103,11 +103,12 @@
         encoder.start();
         const unitSize = inputUnitSize(),
               items = getItems(),
-              gifW = inputRow() * unitSize * 1.1,
-              gifH = inputColumn() * unitSize * 1.1;
+              gifW = inputRow() * unitSize,
+              gifH = inputColumn() * unitSize,
+              zero = 0.1 * unitSize;
         const cv = $("<canvas>").attr({
             width: gifW,
-            height: gifH
+            height: gifH * 1.3
         }).get(0);
         const ctx = cv.getContext('2d');
         // ドットを滑らかにしないおまじない
@@ -117,7 +118,7 @@
         ctx.imageSmoothingEnabled = false;
         const cv2 = $("<canvas>").attr({
             width: gifW,
-            height: unitSize
+            height: unitSize * 1.3
         }).get(0);
         const ctx2 = cv2.getContext('2d');
         ctx2.fillStyle = inputFontColor();
@@ -147,7 +148,7 @@
                 ar.forEach(v=>{
                     const isStr = typeof v === "string";
                     ctx2.clearRect(0, 0, cv2.width, cv2.height);
-                    isStr ? ctx2.fillText(v, 0, 0) : ctx2.drawImage(v, 0, 0, unitSize, unitSize);
+                    isStr ? ctx2.fillText(v, zero, zero) : ctx2.drawImage(v, zero, zero, unitSize, unitSize);
                     const imgData = ctx2.getImageData(0, 0, cv2.width, cv2.height),
                           d = imgData.data,
                           max = d.length / 4;
