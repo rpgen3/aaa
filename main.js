@@ -20,15 +20,15 @@
         save: "inputDelay",
         value: 30,
     });
-    const inputW = rpgen3.addInputNumber(h,{
-        title: "幅",
-        save: "width",
-        value: 320,
+    const inputColumn = rpgen3.addInputNumber(h,{
+        title: "列",
+        save: "column",
+        value: 5,
     });
-    const inputH = rpgen3.addInputNumber(h,{
-        title: "高さ",
-        save: "height",
-        value: 160,
+    const inputRow = rpgen3.addInputNumber(h,{
+        title: "行",
+        save: "row",
+        value: 30,
     });
     const inputUnitSize = rpgen3.addInputNumber(h,{
         title: "文字サイズ",
@@ -100,10 +100,12 @@
         encoder.setDelay(inputDelay()); //1コマあたりの待機秒数（ミリ秒）
         encoder.setQuality(10); // 色量子化の品質を設定
         encoder.setTransparent(parseInt(inputBackColor().slice(1),16)); // 最後に追加されたフレームと後続のフレームの透明色を設定
-        encoder.start()
+        encoder.start();
+        const unitSize = inputUnitSize(),
+              items = getItems();
         const cv = $("<canvas>").attr({
-            width: inputW(),
-            height: inputH()
+            width: inputRow() * unitSize,
+            height: inputColumn() * unitSize
         }).get(0);
         const ctx = cv.getContext('2d');
         // ドットを滑らかにしないおまじない
@@ -111,10 +113,8 @@
         ctx.webkitImageSmoothingEnabled = false;
         ctx.msImageSmoothingEnabled = false;
         ctx.imageSmoothingEnabled = false;
-        const unitSize = inputUnitSize(),
-              items = getItems();
         const cv2 = $("<canvas>").attr({
-            width: inputW(),
+            width: inputRow() * unitSize,
             height: unitSize
         }).get(0);
         const ctx2 = cv2.getContext('2d');
@@ -145,7 +145,7 @@
                 ar.forEach(v=>{
                     const isStr = typeof v === "string";
                     ctx2.clearRect(0, 0, cv2.width, cv2.height);
-                    isStr ? ctx2.fillText(v, 0, 0) : ctx.drawImage(v, nowX, nowY, unitSize, unitSize);
+                    isStr ? ctx2.fillText(v, 0, 0) : ctx2.drawImage(v, 0, 0, unitSize, unitSize);
                     const imgData = ctx2.getImageData(0, 0, cv2.width, cv2.height),
                           d = imgData.data,
                           max = d.length / 4;
