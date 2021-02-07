@@ -143,21 +143,16 @@
                 const nowY = unitSize * i;
                 let nowX = 0;
                 ar.forEach(v=>{
-                    if(typeof v === "string") {
-                        ctx2.clearRect(0, 0, cv2.width, cv2.height);
-                        ctx2.fillText(v, 0, 0);
-                        const imgData = ctx2.getImageData(0, 0, cv2.width, cv2.height),
-                              d = imgData.data,
-                              max = d.length / 4;
-                        for(let i = 0; i < max; i++) d[i * 4 + 3] > 0 ? (d[i * 4 + 3] = 255) : null;
-                        ctx2.putImageData(imgData, 0, 0);
-                        ctx.drawImage(ctx2.canvas, nowX, nowY);
-                        nowX += ctx.measureText(v).width;
-                    }
-                    else {
-                        ctx.drawImage(v, nowX, nowY, unitSize, unitSize);
-                        nowX += unitSize;
-                    }
+                    const isStr = typeof v === "string";
+                    ctx2.clearRect(0, 0, cv2.width, cv2.height);
+                    isStr ? ctx2.fillText(v, 0, 0) : ctx.drawImage(v, nowX, nowY, unitSize, unitSize);
+                    const imgData = ctx2.getImageData(0, 0, cv2.width, cv2.height),
+                          d = imgData.data,
+                          max = d.length / 4;
+                    for(let i = 0; i < max; i++) d[i * 4 + 3] > 0 ? (d[i * 4 + 3] = 255) : null;
+                    ctx2.putImageData(imgData, 0, 0);
+                    ctx.drawImage(ctx2.canvas, nowX, nowY);
+                    nowX += isStr ? ctx.measureText(v).width : unitSize;
                 });
             });
             encoder.addFrame(ctx);
