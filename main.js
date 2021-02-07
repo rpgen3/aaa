@@ -1,43 +1,43 @@
 (function() {
     'use strict';
-    var rpgen3 = window.rpgen3,
-        $ = window.$;
-    var h = $("<div>").appendTo($("body")).css({
+    const rpgen3 = window.rpgen3,
+          $ = window.$;
+    const h = $("<div>").appendTo($("body")).css({
         "text-align": "center",
         padding: "1em"
     });
     $("<h1>",{text:"GIF Maker from AAA"}).appendTo(h);
-    var inputAAA = rpgen3.addInputText(h,{
+    const inputAAA = rpgen3.addInputText(h,{
         textarea: true,
         placeholder: "input area of AAA",
         save: "inputAAA",
         trim: false,
         hankaku: false,
     });
-    var inputDelay = rpgen3.addInputNumber(h,{
+    const inputDelay = rpgen3.addInputNumber(h,{
         title: "フレーム毎ミリ秒",
         placeholder: "delay[ms]",
         save: "inputDelay",
         value: 30,
     });
-    var inputW = rpgen3.addInputNumber(h,{
+    const inputW = rpgen3.addInputNumber(h,{
         title: "幅",
         save: "width",
         value: 320,
     });
-    var inputH = rpgen3.addInputNumber(h,{
+    const inputH = rpgen3.addInputNumber(h,{
         title: "高さ",
         save: "height",
         value: 160,
     });
-    var inputUnitSize = rpgen3.addInputNumber(h,{
+    const inputUnitSize = rpgen3.addInputNumber(h,{
         title: "文字サイズ",
         save: "unit",
         value: 16,
     });
     function addInputColor(title,value){
-        var s = title,
-            e = $("<input>",{type:"color"}).appendTo($("<div>",{text:title + ":"}).appendTo(h))
+        const s = title,
+              e = $("<input>",{type:"color"}).appendTo($("<div>",{text:title + ":"}).appendTo(h))
         .on("change",()=>rpgen3.save(s,e.val())).val(value);
         rpgen3.load(s,v=>{
             e.val(v);
@@ -47,7 +47,7 @@
     const inputFontColor = addInputColor("文字の色","#0000FF");
     const inputBackColor = addInputColor("透明色の設定","#FF0000");
     $("<button>").appendTo(h).text("ユーザー定義絵文字の追加").on("click",loadImg);
-    var itemList = $("<div>").appendTo(h);
+    const itemList = $("<div>").appendTo(h);
     $("<button>").appendTo(h).text("変換").on("click",makeGIF);
     const result = $("<div>").appendTo(h);
     const archive = {};
@@ -95,17 +95,17 @@
         }).get(0).click();
     }
     function makeGIF(){
-        var encoder = new GIFEncoder();
+        const encoder = new GIFEncoder();
         encoder.setRepeat(0); //繰り返し回数 0=無限ループ
         encoder.setDelay(inputDelay()); //1コマあたりの待機秒数（ミリ秒）
         encoder.setQuality(10); // 色量子化の品質を設定
         encoder.setTransparent(parseInt(inputBackColor().slice(1),16)); // 最後に追加されたフレームと後続のフレームの透明色を設定
         encoder.start()
-        var cv = $("<canvas>").attr({
+        const cv = $("<canvas>").attr({
             width: inputW(),
             height: inputH()
         });
-        var ctx = cv.get(0).getContext('2d');
+        const ctx = cv.get(0).getContext('2d');
         ctx.globalAlpha = 1.0;
         // ドットを滑らかにしないおまじない
         ctx.mozImageSmoothingEnabled = false;
@@ -140,6 +140,7 @@
                 ar.forEach(v=>{
                     if(typeof v === "string") {
                         ctx.fillText(v, nowX, nowY);
+                        ctx.strokeText(v, nowX, nowY);
                         nowX += ctx.measureText(v).width;
                     }
                     else {
@@ -156,7 +157,7 @@
             encoder.download("aaa".replace(/\..*$/,'') + ".gif");
         }).appendTo(result.empty());
         result.append("<br>");
-        var url = 'data:image/gif;base64,' + encode64(encoder.stream().getData());
+        const url = 'data:image/gif;base64,' + encode64(encoder.stream().getData());
         $("<img>",{src:url}).appendTo(result);
     }
 })();
