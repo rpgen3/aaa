@@ -103,8 +103,8 @@
         encoder.start();
         const unitSize = inputUnitSize(),
               items = getItems(),
-              gifW = inputRow() * unitSize,
-              gifH = inputColumn() * unitSize,
+              gifW = inputColumn() * unitSize,
+              gifH = inputRow() * unitSize,
               zero = 0.1 * unitSize;
         const cv = $("<canvas>").attr({
             width: gifW,
