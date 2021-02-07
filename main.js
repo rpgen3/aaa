@@ -125,7 +125,7 @@
         ctx2.font = unitSize + "px 'Saitamaar'";
         ctx2.textAlign = "left";
         ctx2.textBaseline = "top";
-        inputAAA().replace(/^(!AAA\n)?@AAA:.*?\n/,'').split(/\n?@@@\n?/).forEach(v=>{
+        inputAAA().replace(/^.*?@AAA:.*?\n/,'').split(/\n?@@@\n?/).forEach(v=>{
             ctx.clearRect(0, 0, cv.width, cv.height);
             ctx.fillStyle = inputBackColor();
             ctx.fillRect(0, 0, cv.width, cv.height);
