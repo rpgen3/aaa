@@ -18,7 +18,7 @@
         title: "フレーム毎ミリ秒",
         placeholder: "delay[ms]",
         save: "inputDelay",
-        value: 30,
+        value: 100,
     });
     const inputColumn = rpgen3.addInputNumber(h,{
         title: "列",
@@ -28,7 +28,7 @@
     const inputRow = rpgen3.addInputNumber(h,{
         title: "行",
         save: "row",
-        value: 30,
+        value: 15,
     });
     const inputUnitSize = rpgen3.addInputNumber(h,{
         title: "文字サイズ",
