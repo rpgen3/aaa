@@ -104,9 +104,8 @@
         const cv = $("<canvas>").attr({
             width: inputW(),
             height: inputH()
-        });
-        const ctx = cv.get(0).getContext('2d');
-        ctx.globalAlpha = 1.0;
+        }).get(0);
+        const ctx = cv.getContext('2d');
         // ドットを滑らかにしないおまじない
         ctx.mozImageSmoothingEnabled = false;
         ctx.webkitImageSmoothingEnabled = false;
@@ -114,9 +113,19 @@
         ctx.imageSmoothingEnabled = false;
         const unitSize = inputUnitSize(),
               items = getItems();
-        inputAAA().replace(/^@AAA:.*?\n/,'').split(/\n?@@@\n?/).forEach(v=>{
+        const cv2 = $("<canvas>").attr({
+            width: inputW(),
+            height: unitSize
+        }).get(0);
+        const ctx2 = cv2.getContext('2d');
+        ctx2.fillStyle = inputFontColor();
+        ctx2.font = unitSize + "px 'ＭＳ ゴシック'";
+        ctx2.textAlign = "left";
+        ctx2.textBaseline = "top";
+        inputAAA().replace(/^(!AAA\n)?@AAA:.*?\n/,'').split(/\n?@@@\n?/).forEach(v=>{
+            ctx.clearRect(0, 0, cv.width, cv.height);
             ctx.fillStyle = inputBackColor();
-            ctx.fillRect(0, 0, cv.get(0).width, cv.get(0).height);
+            ctx.fillRect(0, 0, cv.width, cv.height);
             v.split('\n').forEach((line,i)=>{
                 let ar = [line];
                 for(const k in items) {
@@ -131,16 +140,18 @@
                     });
                     ar = ar2;
                 }
-                ctx.fillStyle = inputFontColor();
-                ctx.font = unitSize + "px 'ＭＳ ゴシック'";
-                ctx.textAlign = "left";
-                ctx.textBaseline = "top";
                 const nowY = unitSize * i;
                 let nowX = 0;
                 ar.forEach(v=>{
                     if(typeof v === "string") {
-                        ctx.fillText(v, nowX, nowY);
-                        ctx.strokeText(v, nowX, nowY);
+                        ctx2.clearRect(0, 0, cv2.width, cv2.height);
+                        ctx2.fillText(v, 0, 0);
+                        const imgData = ctx2.getImageData(0, 0, cv2.width, cv2.height),
+                              d = imgData.data,
+                              max = d.length / 4;
+                        for(let i = 0; i < max; i++) d[i * 4 + 3] > 0 ? (d[i * 4 + 3] = 255) : null;
+                        ctx2.putImageData(imgData, 0, 0);
+                        ctx.drawImage(ctx2.canvas, nowX, nowY);
                         nowX += ctx.measureText(v).width;
                     }
                     else {
