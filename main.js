@@ -102,10 +102,12 @@
         encoder.setTransparent(parseInt(inputBackColor().slice(1),16)); // 最後に追加されたフレームと後続のフレームの透明色を設定
         encoder.start();
         const unitSize = inputUnitSize(),
-              items = getItems();
+              items = getItems(),
+              gifW = inputRow() * unitSize * 1.1,
+              gifH = inputColumn() * unitSize * 1.1;
         const cv = $("<canvas>").attr({
-            width: inputRow() * unitSize,
-            height: inputColumn() * unitSize
+            width: gifW,
+            height: gifH
         }).get(0);
         const ctx = cv.getContext('2d');
         // ドットを滑らかにしないおまじない
@@ -114,7 +116,7 @@
         ctx.msImageSmoothingEnabled = false;
         ctx.imageSmoothingEnabled = false;
         const cv2 = $("<canvas>").attr({
-            width: inputRow() * unitSize,
+            width: gifW,
             height: unitSize
         }).get(0);
         const ctx2 = cv2.getContext('2d');
