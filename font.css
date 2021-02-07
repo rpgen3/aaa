@@ -1,0 +1,10 @@
+@font-face {
+    font-family: saitamaar;
+    src: local('Saitamaar'),
+    url(/aaa/font/Saitamaar.eot) format('eot'),
+    url(/aaa/font/Saitamaar.woff) format('woff'),
+    url(/aaa/font/Saitamaar.ttf) format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
