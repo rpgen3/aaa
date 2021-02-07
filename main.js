@@ -152,7 +152,7 @@
                     for(let i = 0; i < max; i++) d[i * 4 + 3] > 0 ? (d[i * 4 + 3] = 255) : null;
                     ctx2.putImageData(imgData, 0, 0);
                     ctx.drawImage(ctx2.canvas, nowX, nowY);
-                    nowX += isStr ? ctx.measureText(v).width : unitSize;
+                    nowX += isStr ? ctx2.measureText(v).width : unitSize;
                 });
             });
             encoder.addFrame(ctx);
