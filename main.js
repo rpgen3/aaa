@@ -122,7 +122,7 @@
         }).get(0);
         const ctx2 = cv2.getContext('2d');
         ctx2.fillStyle = inputFontColor();
-        ctx2.font = unitSize + "px 'ＭＳ ゴシック'";
+        ctx2.font = unitSize + "px 'Saitamaar'";
         ctx2.textAlign = "left";
         ctx2.textBaseline = "top";
         inputAAA().replace(/^(!AAA\n)?@AAA:.*?\n/,'').split(/\n?@@@\n?/).forEach(v=>{
