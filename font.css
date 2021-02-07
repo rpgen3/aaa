@@ -8,3 +8,12 @@
     font-style: normal;
     font-display: swap;
 }
+
+.aa {
+    padding-top: 2px;
+    font-family: saitamaar;
+    white-space: pre;
+    word-wrap: normal;
+    font-size: 12pt;
+    line-height: 13pt
+}
