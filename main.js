@@ -24,12 +24,12 @@
     const inputColumn = rpgen3.addInputNumber(h,{
         title: "列(幅)",
         save: "column",
-        value: 5,
+        value: 15,
     });
     const inputRow = rpgen3.addInputNumber(h,{
         title: "行(高さ)",
         save: "row",
-        value: 15,
+        value: 1,
     });
     const inputUnitSize = rpgen3.addInputNumber(h,{
         title: "文字サイズ",
