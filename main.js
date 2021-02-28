@@ -22,12 +22,12 @@
         value: 100,
     });
     const inputColumn = rpgen3.addInputNumber(h,{
-        title: "列",
+        title: "列(幅)",
         save: "column",
         value: 5,
     });
     const inputRow = rpgen3.addInputNumber(h,{
-        title: "行",
+        title: "行(高さ)",
         save: "row",
         value: 15,
     });
