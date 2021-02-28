@@ -22,14 +22,14 @@
         value: 100,
     });
     const inputColumn = rpgen3.addInputNumber(h,{
-        title: "列(幅)",
+        title: "列(幅)[文字]",
         save: "column",
-        value: 15,
+        value: 16,
     });
     const inputRow = rpgen3.addInputNumber(h,{
-        title: "行(高さ)",
+        title: "行(高さ)[文字]",
         save: "row",
-        value: 5,
+        value: 9,
     });
     const inputUnitSize = rpgen3.addInputNumber(h,{
         title: "文字サイズ",
