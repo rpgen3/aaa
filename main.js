@@ -29,7 +29,7 @@
     const inputRow = rpgen3.addInputNumber(h,{
         title: "行(高さ)",
         save: "row",
-        value: 1,
+        value: 5,
     });
     const inputUnitSize = rpgen3.addInputNumber(h,{
         title: "文字サイズ",
